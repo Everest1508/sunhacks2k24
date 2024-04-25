@@ -6,7 +6,6 @@ from rest_framework.permissions import IsAuthenticated
 from django.core.mail import send_mail
 from django.conf import settings
 import random
-from django.shortcuts import render
 from rest_framework.views import APIView
 from .models import User
 from rest_framework.response import Response
@@ -17,6 +16,14 @@ from rest_framework.authtoken.models import Token
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
 import jwt 
+
+def get_tokens_for_user(user):
+    refresh = RefreshToken.for_user(user)
+    return {
+        'access': str(refresh.access_token),
+        'refresh': str(refresh),
+    }
+    
 
 class RegisterUserAPIView(APIView):
     def post(self, request):
@@ -69,7 +76,6 @@ class LoginUserAPIView(APIView):
         if user and user.is_trusty:
             login(request, user)
             tokens = get_tokens_for_user(user)
-            tokens['premium']=user.is_premium
             return Response(tokens)
         return Response({'msg': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 

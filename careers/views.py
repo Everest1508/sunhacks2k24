@@ -5,6 +5,7 @@ from .serializers import CareerSerializer,ApplicationSerializer
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
+# from
 
 class CareerViewSet(viewsets.ModelViewSet):
     queryset = Career.objects.all()
