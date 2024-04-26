@@ -5,7 +5,8 @@ from .serializers import CareerSerializer,ApplicationSerializer
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
-# from
+from rest_framework.response import Response
+from .find_resume_score import calculate_score
 
 class CareerViewSet(viewsets.ModelViewSet):
     queryset = Career.objects.all()

@@ -20,13 +20,13 @@ class ApplicationInline(admin.TabularInline):
 @admin.register(Career)
 class CareerAdmin(admin.ModelAdmin):
     # form = CareerAdminForm
-    list_display = ('title', 'location', 'salary', 'is_active', 'created_at', 'updated_at')
+    list_display = ('title', 'location', 'salary', 'is_active','created_at', 'updated_at')
     list_filter = ('location', 'salary', 'is_active', 'created_at')
     search_fields = ('title', 'description', 'requirements', 'responsibilities')
     inlines = [ApplicationInline]
 
 @admin.register(Application)
 class ApplicationAdmin(admin.ModelAdmin):
-    list_display = ('career', 'user','created_at')
-    list_filter = ('created_at',)
+    list_display = ('career', 'user','created_at','score')
+    list_filter = ('created_at','score')
     search_fields = ('career__title', 'email')

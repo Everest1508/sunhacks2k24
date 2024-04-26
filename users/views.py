@@ -66,7 +66,6 @@ class VerifyOTPAPIView(APIView):
         except User.DoesNotExist:
             return Response({'msg': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
         
-        
 
 class LoginUserAPIView(APIView):
     def post(self, request):
@@ -101,7 +100,6 @@ class ForgotPasswordAPIView(APIView):
             [user.email],
             fail_silently=False,
         )
-        
         return Response({'msg': 'Password reset link sent successfully','link':reset_link}, status=status.HTTP_200_OK)
 
 class ResetPasswordAPIView(APIView):
@@ -119,3 +117,30 @@ class ResetPasswordAPIView(APIView):
             return Response({'msg': 'Password reset successful'}, status=status.HTTP_200_OK)
         else:
             return Response({'msg': 'Invalid password reset link'}, status=status.HTTP_400_BAD_REQUEST)
+        
+class RegisterCompanyAPIView(APIView):
+    def post(self, request):
+        data = request.data
+        data['is_company']=True
+        serializer = UserSerializer(data=data)
+        user = User.objects.filter(email=request.data['email']).first()
+        if user:
+            return Response({"msg":"User is already Registered"})
+
+        if serializer.is_valid():
+            user = serializer.save()
+
+            otp = random.randint(1000, 9999)
+            user.otp = otp
+            user.save()
+
+            send_mail(
+                'Verification Code',
+                f'Your verification code is {otp}',
+                settings.EMAIL_HOST_USER,
+                [user.email],
+                fail_silently=False,
+            )
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
