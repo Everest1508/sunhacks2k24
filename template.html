@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance Indicators Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+        <h1 class="text-3xl font-semibold text-center mb-4">Performance Indicators Dashboard</h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="bg-white rounded-lg shadow-md p-4">
+                <h2 class="text-xl font-semibold mb-2 text-center">GDP Score</h2>
+                <h3 class="text-2xl font-bold text-center">80</h3>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-4">
+                <h2 class="text-xl font-semibold mb-2 text-center">Standard Test Score</h2>
+                <h3 class="text-2xl font-bold text-center">75</h3>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-4">
+                <h2 class="text-xl font-semibold mb-2 text-center">Certification Score</h2>
+                <h3 class="text-2xl font-bold text-center">90</h3>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-4">
+                <h2 class="text-xl font-semibold mb-2 text-center">Language Proficiency Score</h2>
+                <h3 class="text-2xl font-bold text-center">85</h3>
+            </div>
+        </div>
+
+        <!-- Graph Section -->
+        <div class="chart-container">
+            <h2>Resume Scores</h2>
+            <canvas id="resumeChart"></canvas>
+        </div>
+        
+    </div>
+    <!-- Load Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script>
+        // Sample data for the graph (replace with your actual data)
+        var resumeData = {
+                labels: ["GDP Score", "Standard Test Score", "Certification Score", "Language Proficiency Score", "Performance Metrics"],
+                datasets: [{
+                    label: 'Scores',
+                    data: [23,56,89,32,0], // Assuming the last one is a percentage score as well
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)' // Color for the last one
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)' // Border color for the last one
+                    ],
+                    borderWidth: 1
+                }]
+            };
+            console.log(resumeData);
+            var resumeCtx = document.getElementById('resumeChart').getContext('2d');
+            var resumeChart = new Chart(resumeCtx, {
+                type: 'bar',
+                data: resumeData
+            });
+    </script>
+</body>
+
+</html>

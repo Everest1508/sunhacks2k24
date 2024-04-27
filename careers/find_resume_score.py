@@ -51,3 +51,35 @@ def calculate_score(cv_file,jd_file):
     print('Match Percentage is :'+ str(MatchPercentage)+'% to Requirement')
     print(type(MatchPercentage))
     return MatchPercentage
+
+def extract_text(cv_file):
+    if cv_file.name.split(".")[-1]=="pdf":
+        Script=PyPDF2.PdfReader(cv_file)
+        pages=len(Script.pages)
+        Script = []
+        with pdfplumber.open(cv_file) as pdf:
+            for i in range (0,pages):
+                page=pdf.pages[i]
+                text=page.extract_text()
+                print (text)
+                Script.append(text)
+        Script=''.join(Script)
+    elif cv_file.name.split(".")[-1]=="docs" or cv_file.name.split(".")[-1]=="docx" or cv_file.name.split(".")[-1]=="doc" :
+        doc = Document(cv_file)
+        content = [p.text for p in doc.paragraphs]
+        Script = " ".join(content)
+    else:
+        nparr = np.frombuffer(cv_file.read(), np.uint8)
+        img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+        # img = cv2.imread(cv_file)
+        # print(cv_file.url)
+        gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
+        gray, img_bin = cv2.threshold(gray,128,255,cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+        gray = cv2.bitwise_not(img_bin)
+        kernel = np.ones((2, 1), np.uint8)
+        img = cv2.erode(gray, kernel, iterations=1)
+        img = cv2.dilate(img, kernel, iterations=1)
+        out_below = tess.image_to_string(img)
+        Script = out_below
+        
+    return Script.replace("\n","")

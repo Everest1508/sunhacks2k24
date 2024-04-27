@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-container {
+            width: 50%;
+            float: left;
+            padding: 20px;
+        }
+
+        .data-table {
+            clear: both;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        {% comment %} <div class="chart-container">
+            <h2>Matching Scores</h2>
+            <canvas id="matchingChart"></canvas>
+        </div> {% endcomment %}
+        <div class="chart-container">
+            <h2>Resume Scores</h2>
+            <canvas id="resumeChart"></canvas>
+        </div>
+
+        <div class="data-table">
+            <h2>Data Tables</h2>
+            <h3>Matching Data</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>JD Match (%)</td>
+                        <td>{{ data.JD_Match }}</td>
+                    </tr>
+                    <tr>
+                        <td>Missing Keywords</td>
+                        <td>
+                            <ul>
+                                {% for keyword in data.MissingKeywords %}
+                                    <li>{{ keyword }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Profile Summary</td>
+                        <td>{{ data.Profile_Summary }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Resume Data</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>GDP Score (%)</td>
+                        <td>{{ data2.gdp_score }}</td>
+                    </tr>
+                    <tr>
+                        <td>Standard Test Score (%)</td>
+                        <td>{{ data2.standard_test_score }}</td>
+                    </tr>
+                    <tr>
+                        <td>Certification Score (%)</td>
+                        <td>{{ data2.certification_score }}</td>
+                    </tr>
+                    <tr>
+                        <td>Language Proficiency Score (%)</td>
+                        <td>{{ data2.language_proficiency_score }}</td>
+                    </tr>
+                    <tr>
+                        <td>Performance Metrics</td>
+                        <td>{{ data2.performance_metrics }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Matching Chart
+            /*var matchingData = {
+                labels: ["JD Match", "Missing Keywords"],
+                datasets: [{
+                    label: 'Scores',
+                    data: [{{ data.JD_Match }}, {{ data.MissingKeywords|length }}],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            };
+            var matchingCtx = document.getElementById('matchingChart').getContext('2d');
+            var matchingChart = new Chart(matchingCtx, {
+                type: 'bar',
+                data: matchingData
+            });*/
+
+            // Resume Chart
+            var resumeData = {
+                labels: ["GDP Score", "Standard Test Score", "Certification Score", "Language Proficiency Score", "Performance Metrics"],
+                datasets: [{
+                    label: 'Scores',
+                    data: [{{ data2.gdp_score }}, {{ data2.standard_test_score }}, {{ data2.certification_score }}, {{ data2.language_proficiency_score }}, 0], // Assuming the last one is a percentage score as well
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)' // Color for the last one
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)' // Border color for the last one
+                    ],
+                    borderWidth: 1
+                }]
+            };
+            console.log(resumeData);
+            var resumeCtx = document.getElementById('resumeChart').getContext('2d');
+            var resumeChart = new Chart(resumeCtx, {
+                type: 'bar',
+                data: resumeData
+            });
+        });
+    </script>
+</body>
+</html>

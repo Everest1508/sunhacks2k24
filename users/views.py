@@ -15,7 +15,8 @@ from django.contrib.auth import authenticate, login
 from rest_framework.authtoken.models import Token
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
-import jwt 
+import jwt
+from django.shortcuts import render
 
 def get_tokens_for_user(user):
     refresh = RefreshToken.for_user(user)

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume Collector Admin Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .chart-container {
+    margin-top: 20px;
+  }
+   */
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa; /* Light gray background */
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 95vw; /* Limit container width to 95% of viewport width */
+  margin: 20px auto; /* Center container */
+  background-color: #fff; /* White background */
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  padding: 20px;
+  box-sizing: border-box; /* Include padding in width calculation */
+}
+
+h1 {
+  text-align: center;
+  color: #333; /* Dark gray text */
+}
+
+.chart-container {
+  margin-top: 20px;
+}
+
+/* Style for chart canvases */
+canvas {
+  width: 100%;
+  height: 400px;
+}
+
+/* Colors for chart datasets */
+.chart-colors {
+  /* Choose unique and cool colors for your datasets */
+  --color1: #007bff; /* Blue */
+  --color2: #28a745; /* Green */
+  --color3: #dc3545; /* Red */
+}
+
+/* Apply colors to datasets */
+.chart-container:nth-child(1) canvas {
+  background-color: var(--color1);
+}
+
+.chart-container:nth-child(2) canvas {
+  background-color: var(--color2);
+}
+
+.chart-container:nth-child(3) canvas {
+  background-color: var(--color3);
+}
+
+/* 
+.chart-container-donout{
+    height: 300px;
+    width: 300px;
+} */
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Admin Dashboard</h1>
+    <div class="chart-container" style="margin-bottom: 80px;">
+      <canvas id="jobRoleApplicationsChart"></canvas>
+    </div>
+
+    <!-- <center> -->
+    <div style="display: flex; margin:auto; justify-content:space-between">
+      <div class="chart-container">
+      <canvas id="dailyApplicationsChart"></canvas>
+    </div>
+    <div class="chart-container-donout">
+      <canvas id="jobRolesCountChart"></canvas>
+    </div>
+  </div>
+<!-- </center> -->
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+    const jobRoles = ['Software Engineer', 'Data Analyst', 'Product Manager', 'Django Developer', "ReactJS Developer"];
+    const jobRole = {{ career_names }};
+    console.log(jobRole);
+    const applicationsByRole = [50, 30, 20, 35,40]; 
+    const dailyApplications = [10, 15, 20, 10, 25, 30, 20]; 
+  
+    var jobRoleApplicationsCtx = document.getElementById('jobRoleApplicationsChart').getContext('2d');
+    var jobRoleApplicationsChart = new Chart(jobRoleApplicationsCtx, {
+      type: 'bar',
+      data: {
+        labels: jobRoles,
+        datasets: [{
+          label: 'Applications per Job Role',
+          data: applicationsByRole,
+          backgroundColor: 'rgba(54, 162, 235, 0.6)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  
+    var dailyApplicationsCtx = document.getElementById('dailyApplicationsChart').getContext('2d');
+    var dailyApplicationsChart = new Chart(dailyApplicationsCtx, {
+      type: 'line',
+      data: {
+        labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
+        datasets: [{
+          label: 'Daily Applications',
+          data: dailyApplications,
+          fill: false,
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  
+    var jobRolesCountCtx = document.getElementById('jobRolesCountChart').getContext('2d');
+    var jobRolesCountChart = new Chart(jobRolesCountCtx, {
+      type: 'doughnut',
+      data: {
+        labels: jobRoles,
+        datasets: [{
+          label: 'Job Roles Count',
+          data: applicationsByRole,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.6)',
+            'rgba(54, 162, 235, 0.6)',
+            'rgba(255, 206, 86, 0.6)'
+          ]
+        }]
+      }
+    });
+  });
+  
+  </script>
+</body>
+</html>
