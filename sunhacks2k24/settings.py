@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-kzkdfy_10w3bd__wasd=^e*z=c*y^qf$pf#l7ys05uqa_*1w1$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -82,15 +82,15 @@ WSGI_APPLICATION = 'sunhacks2k24.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-# DATABASES={}
-# DATABASES['default'] = dj_database_url.config(conn_max_age=600)
-# DATABASES['default'] = dj_database_url.config(default='postgres://sunhacks2k24_user:5JFWEiYWUKxbInbdMqm1Xswyqhv3W5Su@dpg-colnkb21hbls7392g2jg-a.oregon-postgres.render.com/sunhacks2k24')
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+DATABASES={}
+DATABASES['default'] = dj_database_url.config(conn_max_age=600)
+DATABASES['default'] = dj_database_url.config(default='postgres://sunhacks2k24_user:5JFWEiYWUKxbInbdMqm1Xswyqhv3W5Su@dpg-colnkb21hbls7392g2jg-a.oregon-postgres.render.com/sunhacks2k24')
 
 
 
